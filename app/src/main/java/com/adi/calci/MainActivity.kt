@@ -1,17 +1,26 @@
 package com.adi.calci
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.adi.calci.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+
+    fun errorToast(){
+        Toast.makeText( this ,"Invalid Expression",Toast.LENGTH_SHORT).show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        println(binding.tvExpression.toString())
 
         binding.btnAC.setOnClickListener{
             binding.tvExpression.text = ""
@@ -27,31 +36,40 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnAdd.setOnClickListener{
-            var currentExpression = binding.tvExpression.text.toString()
-            if((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1])) && currentExpression.isNotEmpty()){
-                var newExpression = currentExpression + "+"
-                binding.tvExpression.text = newExpression
+            if(binding.tvExpression.text.toString().isNotEmpty()) {
+                var currentExpression = binding.tvExpression.text.toString()
+                if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
+                    var newExpression = currentExpression + "+"
+                    binding.tvExpression.text = newExpression
+                }
             }
         }
         binding.btnSubtract.setOnClickListener{
-            var currentExpression = binding.tvExpression.text.toString()
-            if((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1])) && currentExpression.isNotEmpty()){
-                var newExpression = currentExpression + "-"
-                binding.tvExpression.text = newExpression
+            if(binding.tvExpression.text.toString().isNotEmpty()) {
+                var currentExpression = binding.tvExpression.text.toString()
+                if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
+                    var newExpression = currentExpression + "-"
+                    binding.tvExpression.text = newExpression
+                }
             }
         }
         binding.btnMultiply.setOnClickListener{
-            var currentExpression = binding.tvExpression.text.toString()
-            if((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1])) && currentExpression.isNotEmpty()){
-                var newExpression = currentExpression + "x"
-                binding.tvExpression.text = newExpression
+            if(binding.tvExpression.text.toString().isNotEmpty()) {
+                var currentExpression = binding.tvExpression.text.toString()
+                if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
+                    var newExpression = currentExpression + "x"
+                    binding.tvExpression.text = newExpression
+                }
             }
         }
+
         binding.btnDivide.setOnClickListener{
-            var currentExpression = binding.tvExpression.text.toString()
-            if((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1])) && currentExpression.isNotEmpty()){
-                var newExpression = currentExpression + "/"
-                binding.tvExpression.text = newExpression
+            if(binding.tvExpression.text.toString().isNotEmpty()) {
+                var currentExpression = binding.tvExpression.text.toString()
+                if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
+                    var newExpression = currentExpression + "/"
+                    binding.tvExpression.text = newExpression
+                }
             }
         }
 
@@ -105,10 +123,27 @@ class MainActivity : AppCompatActivity() {
             var newExpression = currentExpression + "9"
             binding.tvExpression.text = newExpression
         }
-        binding.btnEquals.setOnClickListener{
+        binding.btnDot.setOnClickListener{
+            var currentExpression = binding.tvExpression.text.toString()
+            var newExpression = currentExpression + "."
+            binding.tvExpression.text = newExpression
+        }
+        binding.btnRightBracket.setOnClickListener{
+            var currentExpression = binding.tvExpression.text.toString()
+            var newExpression = currentExpression + ")"
+            binding.tvExpression.text = newExpression
+        }
+        binding.btnLeftBracket.setOnClickListener{
+            var currentExpression = binding.tvExpression.text.toString()
+            var newExpression = currentExpression + "("
+            binding.tvExpression.text = newExpression
+        }
+
+
+        binding.btnEqualTo.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             if(currentExpression != ""){
-                var newExpression = evaluateMathExpression(currentExpression)
+                var newExpression = evaluateMathExpression(currentExpression, this)
                 binding.tvResult.text = newExpression.toString()
             }
 
@@ -117,51 +152,60 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-val forbiddenSuccessiveOperators = listOf('+','-','x','/',' ')
+val forbiddenSuccessiveOperators = listOf('+','-','x','/',' ','.')
 
-fun evaluateMathExpression(expression: String): Double {
-    val sanitizedExpression = expression.replace(" ", "") // Remove any spaces from the expression
-    val numbers = mutableListOf<Double>()
-    val operators = mutableListOf<Char>()
-    var currentNumber = StringBuilder()
+fun evaluateMathExpression(expression: String, context: Context): Double {
+    try {
+        val sanitizedExpression = expression.replace(" ", "") // Remove any spaces from the expression
+        val numbers = mutableListOf<Double>()
+        val operators = mutableListOf<Char>()
+        var currentNumber = StringBuilder()
 
-    for (char in sanitizedExpression) {
-        if (char.isDigit() || char == '.') {
-            currentNumber.append(char)
-        } else {
-            if (currentNumber.isNotEmpty()) {
-                numbers.add(currentNumber.toString().toDouble())
-                currentNumber.clear()
-            }
-
-            if (char == '(') {
-                operators.add(char)
-            } else if (char == ')') {
-                while (operators.isNotEmpty() && operators.last() != '(') {
-                    val result = performCalculation(numbers, operators)
-                    numbers.add(result)
-                }
-                operators.removeLastOrNull() // Remove the '(' operator
+        for (char in sanitizedExpression) {
+            if (char.isDigit() || char == '.') {
+                currentNumber.append(char)
             } else {
-                while (operators.isNotEmpty() && hasPrecedence(char, operators.last())) {
-                    val result = performCalculation(numbers, operators)
-                    numbers.add(result)
+                if (currentNumber.isNotEmpty()) {
+                    numbers.add(currentNumber.toString().toDouble())
+                    currentNumber.clear()
                 }
-                operators.add(char)
+
+                if (char == '(') {
+                    operators.add(char)
+                } else if (char == ')') {
+                    while (operators.isNotEmpty() && operators.last() != '(') {
+                        val result = performCalculation(numbers, operators)
+                        numbers.add(result)
+                    }
+                    operators.removeLastOrNull() // Remove the '(' operator
+                } else {
+                    while (operators.isNotEmpty() && hasPrecedence(char, operators.last())) {
+                        val result = performCalculation(numbers, operators)
+                        numbers.add(result)
+                    }
+                    operators.add(char)
+                }
             }
         }
-    }
 
-    if (currentNumber.isNotEmpty()) {
-        numbers.add(currentNumber.toString().toDouble())
-    }
+        if (currentNumber.isNotEmpty()) {
+            numbers.add(currentNumber.toString().toDouble())
+        }
 
-    while (operators.isNotEmpty()) {
-        val result = performCalculation(numbers, operators)
-        numbers.add(result)
-    }
+        while (operators.isNotEmpty()) {
+            val result = performCalculation(numbers, operators)
+            numbers.add(result)
+        }
 
-    return numbers.last()
+        return numbers.last()
+    } catch (e: Exception) {
+        Toast.makeText(context, "INVAILD EXPRESSION", Toast.LENGTH_SHORT).show()
+        syntaxError() // Call the custom function to handle syntax errors
+        return 0.0 // Return a default value or handle the error as desired
+    }
+    finally{
+        println("Error Occured, but Fine!")
+    }
 }
 
 fun performCalculation(numbers: MutableList<Double>, operators: MutableList<Char>): Double {
@@ -186,3 +230,8 @@ fun hasPrecedence(op1: Char, op2: Char): Boolean {
     if (op2 == '(' || op2 == ')') return false
     return (op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')
 }
+
+fun syntaxError() {
+    println("ERROR handling Placeholder")
+}
+
