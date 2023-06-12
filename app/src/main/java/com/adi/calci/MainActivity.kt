@@ -6,6 +6,24 @@ import android.os.Bundle
 import android.widget.Toast
 import com.adi.calci.databinding.ActivityMainBinding
 import net.objecthunter.exp4j.ExpressionBuilder
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
+
+
+object VibrationUtils {
+    fun vibrate(context: Context, duration: Long) {
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(duration)
+        }
+    }
+}
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             var currentExpression = binding.tvExpression.text.toString()
             if(currentExpression.isNotEmpty()){
                 var newExpression = currentExpression.substring(0, currentExpression.length - 1)
+                VibrationUtils.vibrate(this, 20)
                 binding.tvExpression.text = newExpression
             }
         }
@@ -48,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnDEL.setOnLongClickListener {
             binding.tvExpression.text = ""
             binding.tvResult.text = ""
+            VibrationUtils.vibrate(this, 20)
             true
         }
 
@@ -56,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                 var currentExpression = binding.tvExpression.text.toString()
                 if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
                     var newExpression = currentExpression + "+"
+                    VibrationUtils.vibrate(this, 20)
                     binding.tvExpression.text = newExpression
                 }
             }
@@ -66,6 +87,7 @@ class MainActivity : AppCompatActivity() {
                 if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
                     var newExpression = currentExpression + "-"
                     binding.tvExpression.text = newExpression
+                    VibrationUtils.vibrate(this, 20)
                 }
            }
         }
@@ -75,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                 if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
                     var newExpression = currentExpression + "×"
                     binding.tvExpression.text = newExpression
+                    VibrationUtils.vibrate(this, 20)
                 }
             }
         }
@@ -85,6 +108,7 @@ class MainActivity : AppCompatActivity() {
                 if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
                     var newExpression = currentExpression + "÷"
                     binding.tvExpression.text = newExpression
+                    VibrationUtils.vibrate(this, 20)
                 }
             }
         }
@@ -93,52 +117,62 @@ class MainActivity : AppCompatActivity() {
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "0"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
 
         binding.btn1.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "1"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btn2.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "2"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btn3.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "3"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btn4.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "4"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btn5.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "5"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btn6.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "6"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btn7.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "7"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btn8.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "8"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btn9.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "9"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btnDot.setOnClickListener{
             if(binding.tvExpression.text.toString().isNotEmpty()) {
@@ -146,6 +180,7 @@ class MainActivity : AppCompatActivity() {
                 if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
                     var newExpression = currentExpression + "."
                     binding.tvExpression.text = newExpression
+                    VibrationUtils.vibrate(this, 20)
                 }
             }
         }
@@ -153,11 +188,13 @@ class MainActivity : AppCompatActivity() {
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + ")"
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
         binding.btnLeftBracket.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "("
             binding.tvExpression.text = newExpression
+            VibrationUtils.vibrate(this, 20)
         }
 
 
@@ -166,6 +203,7 @@ class MainActivity : AppCompatActivity() {
             if(currentExpression != ""){
                 var newExpression = evaluateMathExpression(currentExpression, this)
                 binding.tvResult.text = newExpression
+                VibrationUtils.vibrate(this, 20)
             }
         }
     }
