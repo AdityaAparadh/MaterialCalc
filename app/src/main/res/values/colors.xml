@@ -4,7 +4,8 @@
     <color name="expression">#000000</color>
     <color name="bg">#000000</color>
     <color name="buttonNum">#50504F</color>
-    <color name="buttonOp">#FF9800</color>
+    <color name="buttonOp">#FF9500</color>
     <color name="buttonFunc">#B6B6B6</color>
+    <color name="buttonPressed">#FF6F6F</color>
     <color name="text">#FFFFFF</color>
 </resources>

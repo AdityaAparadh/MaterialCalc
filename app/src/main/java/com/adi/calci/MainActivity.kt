@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.adi.calci.databinding.ActivityMainBinding
+import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,16 +16,25 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText( this ,"Invalid Expression",Toast.LENGTH_SHORT).show()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("expression", binding.tvExpression.text.toString())
+        outState.putString("result", binding.tvResult.text.toString())
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         println(binding.tvExpression.toString())
 
-        binding.btnAC.setOnClickListener{
-            binding.tvExpression.text = ""
-            binding.tvResult.text = ""
+        if (savedInstanceState != null) {
+            binding.tvExpression.text = savedInstanceState.getString("expression")
+            binding.tvResult.text = savedInstanceState.getString("result")
         }
 
         binding.btnDEL.setOnClickListener {
@@ -33,6 +43,12 @@ class MainActivity : AppCompatActivity() {
                 var newExpression = currentExpression.substring(0, currentExpression.length - 1)
                 binding.tvExpression.text = newExpression
             }
+        }
+
+        binding.btnDEL.setOnLongClickListener {
+            binding.tvExpression.text = ""
+            binding.tvResult.text = ""
+            true
         }
 
         binding.btnAdd.setOnClickListener{
@@ -51,13 +67,13 @@ class MainActivity : AppCompatActivity() {
                     var newExpression = currentExpression + "-"
                     binding.tvExpression.text = newExpression
                 }
-            }
+           }
         }
         binding.btnMultiply.setOnClickListener{
             if(binding.tvExpression.text.toString().isNotEmpty()) {
                 var currentExpression = binding.tvExpression.text.toString()
                 if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
-                    var newExpression = currentExpression + "x"
+                    var newExpression = currentExpression + "×"
                     binding.tvExpression.text = newExpression
                 }
             }
@@ -67,7 +83,7 @@ class MainActivity : AppCompatActivity() {
             if(binding.tvExpression.text.toString().isNotEmpty()) {
                 var currentExpression = binding.tvExpression.text.toString()
                 if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
-                    var newExpression = currentExpression + "/"
+                    var newExpression = currentExpression + "÷"
                     binding.tvExpression.text = newExpression
                 }
             }
@@ -78,6 +94,7 @@ class MainActivity : AppCompatActivity() {
             var newExpression = currentExpression + "0"
             binding.tvExpression.text = newExpression
         }
+
         binding.btn1.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
             var newExpression = currentExpression + "1"
@@ -124,9 +141,13 @@ class MainActivity : AppCompatActivity() {
             binding.tvExpression.text = newExpression
         }
         binding.btnDot.setOnClickListener{
-            var currentExpression = binding.tvExpression.text.toString()
-            var newExpression = currentExpression + "."
-            binding.tvExpression.text = newExpression
+            if(binding.tvExpression.text.toString().isNotEmpty()) {
+                var currentExpression = binding.tvExpression.text.toString()
+                if ((!forbiddenSuccessiveOperators.contains(currentExpression[currentExpression.length - 1]))) {
+                    var newExpression = currentExpression + "."
+                    binding.tvExpression.text = newExpression
+                }
+            }
         }
         binding.btnRightBracket.setOnClickListener{
             var currentExpression = binding.tvExpression.text.toString()
@@ -144,94 +165,34 @@ class MainActivity : AppCompatActivity() {
             var currentExpression = binding.tvExpression.text.toString()
             if(currentExpression != ""){
                 var newExpression = evaluateMathExpression(currentExpression, this)
-                binding.tvResult.text = newExpression.toString()
+                binding.tvResult.text = newExpression
             }
-
         }
     }
 }
 
 
-val forbiddenSuccessiveOperators = listOf('+','-','x','/',' ','.')
+val forbiddenSuccessiveOperators = listOf('+','-','×','÷',' ','.')
 
-fun evaluateMathExpression(expression: String, context: Context): Double {
-    try {
-        val sanitizedExpression = expression.replace(" ", "") // Remove any spaces from the expression
-        val numbers = mutableListOf<Double>()
-        val operators = mutableListOf<Char>()
-        var currentNumber = StringBuilder()
+fun evaluateMathExpression(expression: String, context: Context): String {
+    val sanitizedExpression = expression.replace("×", "*").replace("÷", "/")
 
-        for (char in sanitizedExpression) {
-            if (char.isDigit() || char == '.') {
-                currentNumber.append(char)
-            } else {
-                if (currentNumber.isNotEmpty()) {
-                    numbers.add(currentNumber.toString().toDouble())
-                    currentNumber.clear()
-                }
-
-                if (char == '(') {
-                    operators.add(char)
-                } else if (char == ')') {
-                    while (operators.isNotEmpty() && operators.last() != '(') {
-                        val result = performCalculation(numbers, operators)
-                        numbers.add(result)
-                    }
-                    operators.removeLastOrNull() // Remove the '(' operator
-                } else {
-                    while (operators.isNotEmpty() && hasPrecedence(char, operators.last())) {
-                        val result = performCalculation(numbers, operators)
-                        numbers.add(result)
-                    }
-                    operators.add(char)
-                }
-            }
-        }
-
-        if (currentNumber.isNotEmpty()) {
-            numbers.add(currentNumber.toString().toDouble())
-        }
-
-        while (operators.isNotEmpty()) {
-            val result = performCalculation(numbers, operators)
-            numbers.add(result)
-        }
-
-        return numbers.last()
+    return try {
+        val result = ExpressionBuilder(sanitizedExpression).build().evaluate()
+        formatResult(result)
     } catch (e: Exception) {
-        Toast.makeText(context, "INVAILD EXPRESSION", Toast.LENGTH_SHORT).show()
-        syntaxError() // Call the custom function to handle syntax errors
-        return 0.0 // Return a default value or handle the error as desired
-    }
-    finally{
-        println("Error Occured, but Fine!")
+        e.printStackTrace()
+        Toast.makeText(context, "Invalid Expression", Toast.LENGTH_SHORT).show()
+        "0.0"
     }
 }
 
-fun performCalculation(numbers: MutableList<Double>, operators: MutableList<Char>): Double {
-    val operator = operators.removeLastOrNull()
-    val operand2 = numbers.removeLastOrNull()
-    val operand1 = numbers.removeLastOrNull()
-
-    if (operator != null && operand2 != null && operand1 != null) {
-        return when (operator) {
-            '+' -> operand1 + operand2
-            '-' -> operand1 - operand2
-            'x' -> operand1 * operand2
-            '/' -> operand1 / operand2
-            else -> throw IllegalArgumentException("Invalid operator: $operator")
-        }
+fun formatResult(result: Double): String {
+    return if (result % 1 == 0.0) {
+        result.toInt().toString()
     } else {
-        throw IllegalArgumentException("Invalid expression")
+        result.toString()
     }
 }
 
-fun hasPrecedence(op1: Char, op2: Char): Boolean {
-    if (op2 == '(' || op2 == ')') return false
-    return (op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')
-}
-
-fun syntaxError() {
-    println("ERROR handling Placeholder")
-}
 

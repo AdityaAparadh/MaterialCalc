@@ -16,44 +16,36 @@
         <TextView
             android:id="@+id/tvExpression"
             android:layout_width="match_parent"
-            android:layout_height="102dp"
-            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_weight="0.9"
             android:maxLines="1"
             android:textColor="@color/text"
             android:background="@color/expression"
+            app:autoSizeTextType="uniform"
             android:text=""
-            android:textAlignment="viewEnd"
-            android:textSize="60dp" />
+            android:textSize="0sp"
+            android:textAlignment="viewEnd" />
 
 
         <TextView
             android:id="@+id/tvResult"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginBottom="15dp"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:textColor="@color/text"
             android:background="@color/expression"
+            app:autoSizeTextType="uniform"
             android:maxLines="1"
             android:text=""
             android:textAlignment="viewEnd"
-            android:textSize="80dp" />
+            android:textSize="0sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnAC"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:backgroundTint="@color/buttonFunc"
-                android:layout_weight="1"
-                android:text="AC"
-                android:textSize="20dp" />
 
             <Button
                 android:id="@+id/btnDEL"
@@ -62,8 +54,12 @@
                 android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/buttonFunc"
+                android:textColor="@color/black"
                 android:text="DEL"
-                android:textSize="20dp" />
+                android:maxLines="1"
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btnLeftBracket"
@@ -73,7 +69,9 @@
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text="("
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btnRightBracket"
@@ -83,15 +81,10 @@
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text=")"
-                android:textSize="20dp" />
-        </LinearLayout>
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:backgroundTint="#FFFFFF"
-            android:orientation="horizontal">
             <Button
                 android:id="@+id/btnDivide"
                 android:layout_width="wrap_content"
@@ -99,8 +92,18 @@
                 android:layout_margin="3dp"
                 android:backgroundTint="@color/buttonOp"
                 android:layout_weight="1"
-                android:text="/"
-                android:textSize="20dp" />
+                android:text="÷"
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
 
             <Button
                 android:id="@+id/btn7"
@@ -110,7 +113,9 @@
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text="7"
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btn8"
@@ -120,25 +125,21 @@
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text="8"
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btn9"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
-                android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
+                android:backgroundTint="@color/buttonNum"
                 android:text="9"
-                android:textSize="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
             <Button
                 android:id="@+id/btnMultiply"
                 android:layout_width="wrap_content"
@@ -146,8 +147,19 @@
                 android:layout_margin="3dp"
                 android:backgroundTint="@color/buttonOp"
                 android:layout_weight="1"
-                android:text="x"
-                android:textSize="20dp" />
+                android:text="×"
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
 
             <Button
                 android:id="@+id/btn4"
@@ -157,7 +169,9 @@
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text="4"
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btn5"
@@ -167,7 +181,9 @@
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text="5"
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btn6"
@@ -177,14 +193,9 @@
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text="6"
-                android:textSize="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btnSubtract"
@@ -194,83 +205,111 @@
                 android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:text="-"
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/buttonNum"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:text="1"
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btn2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text="2"
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btn3"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
-                android:text="3"
-                android:textSize="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+                android:text= "3"
+                app:autoSizeMaxTextSize="40sp"
+                android:textSize="0sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btnAdd"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/buttonOp"
                 android:text="+"
-                android:textSize="20dp" />
+                app:autoSizeMaxTextSize="40sp"
+                android:textSize="0sp"
+                app:autoSizeTextType="uniform"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn0"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/buttonNum"
                 android:text="0"
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btnDot"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:backgroundTint="@color/buttonNum"
                 android:layout_weight="1"
                 android:text="."
-                android:textSize="20dp" />
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform"/>
 
             <Button
                 android:id="@+id/btnEqualTo"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/buttonFunc"
-                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:layout_weight="2"
                 android:text="="
-                android:textSize="20dp" />
+                android:textColor="@color/black"
+                android:textSize="0sp"
+                app:autoSizeMaxTextSize= "40sp"
+                app:autoSizeTextType="uniform"/>
+
         </LinearLayout>
 
     </LinearLayout>
